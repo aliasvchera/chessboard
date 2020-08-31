@@ -1,2 +1,2 @@
 # chessboard
-MAGISTER MILITVM. Browser game, turn-based strategy.
+'MAGISTER MILITVM' (Browser game / Turn-based strategy)

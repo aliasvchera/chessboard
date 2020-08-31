@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20200714151403_Regions.cs" />
+    <Compile Remove="Migrations\20200714151403_Regions.Designer.cs" />
+    <Compile Remove="Migrations\20200714171439_RegionsTransactions.cs" />
+    <Compile Remove="Migrations\20200714171439_RegionsTransactions.Designer.cs" />
+    <Compile Remove="Migrations\20200715164132_RegionsTransactions2.cs" />
+    <Compile Remove="Migrations\20200715164132_RegionsTransactions2.Designer.cs" />
+    <Compile Remove="Migrations\20200715164817_RegionsTransactions2.cs" />
+    <Compile Remove="Migrations\20200715164817_RegionsTransactions2.Designer.cs" />
+    <Compile Remove="Migrations\20200715193853_RegionsTransactions1.cs" />
+    <Compile Remove="Migrations\20200715193853_RegionsTransactions1.Designer.cs" />
+    <Compile Remove="Migrations\20200715194309_RegionsTransactions2.cs" />
+    <Compile Remove="Migrations\20200715194309_RegionsTransactions2.Designer.cs" />
+    <Compile Remove="Migrations\20200715194405_RegionsTransactions1.cs" />
+    <Compile Remove="Migrations\20200715194405_RegionsTransactions1.Designer.cs" />
+    <Compile Remove="Migrations\20200715194750_RegionsTransactions2.cs" />
+    <Compile Remove="Migrations\20200715194750_RegionsTransactions2.Designer.cs" />
+    <Compile Remove="Migrations\20200715200149_RegionsTransactions3.cs" />
+    <Compile Remove="Migrations\20200715200149_RegionsTransactions3.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.7">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="API\" />
+  </ItemGroup>
+
+</Project>

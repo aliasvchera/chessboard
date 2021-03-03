@@ -9,31 +9,27 @@ namespace ChessBoard.Models
     public class Region
     {
         [Key]
-        [Column(TypeName = "nvarchar(10)")]
-        public string Name { get; set; }
+        [Column(TypeName = "nvarchar(31)")]
+        public string RegionId { get; set; }
         // caption name
-        // private readonly colour;
-        //public Location Location { get; }
         public int X { get; set; }
         public int Y { get; set; }
-        public float NormalWealth { get; set; }
-        public float Wealth { get; set; }
+        //public float NormalWealth { get; set; }
+        //public float Wealth { get; set; }
         public string Faction { get; set; }
-        /*public Fortress? Fortress { get; set; }
-        public Army? Army { get; set; }
-        public Army? EnemyArmy { get; set; }*/
+        public List<Army> Armies { get; set; }
+        public List<Fortress> Fortresses { get; set; }
         public List<Transition> Transitions1 { get; set; }
         public List<Transition> Transitions2 { get; set; }
 
 
-        public Region(string name, int x, int y, float normalWealth, float wealth)
+        public Region(string regionId, int x, int y)
         {
-            Name = name;
+            RegionId = regionId;
             X = x;
             Y = y;
-            //Location = new Location(location.x, location.y);
-            NormalWealth = normalWealth;
-            Wealth = wealth;
+            //NormalWealth = normalWealth;
+            //Wealth = wealth;
         }
         /*
         public float Sack()

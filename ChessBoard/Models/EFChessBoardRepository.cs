@@ -36,5 +36,53 @@ namespace ChessBoard.Models
             //_logger.LogError($"New unit added: test_unit_0{newUnitId}");
             //System.Diagnostics.Debug.WriteLine($"test_unit_0{newUnitId}");
         }
+
+        public void UpdateDestination(string armyId, string regionId, byte step)
+        {
+            var army = context.Armies.Where(a => a.MilitaryId == armyId).FirstOrDefault();
+            if (army != null)
+            {
+                if (step == 1)
+                {
+                    if (army.DestinationRegionId1 is null || !army.DestinationRegionId1.Equals(regionId))
+                    {
+                        army.DestinationRegionId1 = regionId;                        
+                    }
+                    else
+                    {
+                        army.DestinationRegionId1 = null;
+                    }
+                    army.DestinationRegionId2 = null;
+                }
+                else
+                {
+                    if (army.DestinationRegionId2 is null || !army.DestinationRegionId2.Equals(regionId))
+                    {
+                        army.DestinationRegionId2 = regionId;
+                    }
+                    else
+                    {
+                        army.DestinationRegionId2 = null;
+                    }                        
+                }
+                
+            }
+            //context.Armies.Update(army);
+            context.SaveChanges();
+        }
+
+        public void ProcessTurn()
+        {
+            foreach(Army army in context.Armies)
+            {
+                if (army.DestinationRegionId1 != null)
+                {
+                    army.RegionId = army.DestinationRegionId1;
+                    army.DestinationRegionId1 = army.DestinationRegionId2;
+                    army.DestinationRegionId2 = null;
+                }                
+            }
+            context.SaveChanges();
+        }
     }
 }

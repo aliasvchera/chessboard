@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.CompilerServices;
 
 namespace ChessBoard.Models
@@ -12,8 +13,8 @@ namespace ChessBoard.Models
         // Symbol of cohort
         // Position of unit type symbol in army icon (1,2,3,...)
         [Required]
-        [StringLength(20)]
-        public string Name { get; }
+        [StringLength(41)]
+        public string UnitId { get; set; }
         public int Speed { get; private set; }
         [Required]
         public int SoldierNumber { get; set; }
@@ -21,9 +22,8 @@ namespace ChessBoard.Models
         public float FieldEffectiveness { get; private set; }
         public float FortressEffectiveness { get; private set; }
         public float SiegeEffectiveness { get; private set; }
-        //public string FactionName { get; set; }
-        //public Faction Faction { get; set; }
-        public string MilitaryName { get; set; }
+        [Column(TypeName = "nvarchar(41)")]
+        public string MilitaryId { get; set; }
         public Military Military { get; set; }
 
         //public float CostPerTurn() // use SoldierCost?
@@ -31,11 +31,11 @@ namespace ChessBoard.Models
         //    return SoldierCost * SoldierNumber;
         //}
 
-        public Unit(UnitType type, string name, string militaryName, int speed, float fieldEffectiveness, float fortressEffectiveness, float siegeEffectiveness, float soldierCost)
+        public Unit(UnitType type, string unitId, string militaryId, int speed, float fieldEffectiveness, float fortressEffectiveness, float siegeEffectiveness, float soldierCost)
         {
             Type = type;
-            Name = name;
-            MilitaryName = militaryName;
+            UnitId = unitId;
+            MilitaryId = militaryId;
             Speed = speed;
             SoldierNumber = 0;
             Experience = 1F;

@@ -8,6 +8,8 @@ namespace ChessBoard.Models
     public class Fortress : Military
     {
         public bool Besieged { get; set; }
+        public int X { get; set; }
+        public int Y { get; set; }
 
         public Fortress()
         {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Numerics;
 
@@ -9,6 +10,12 @@ namespace ChessBoard.Models
     public class Army : Military
     {
         public string Besieging { get; set; }
+
+        [Column(TypeName = "nvarchar(31)")]
+        public string DestinationRegionId1 { get; set; }
+
+        [Column(TypeName = "nvarchar(31)")]
+        public string DestinationRegionId2 { get; set; }
 
         public Army()
         {

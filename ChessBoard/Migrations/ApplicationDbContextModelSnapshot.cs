@@ -14,14 +14,14 @@ namespace ChessBoard.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.5")
+                .HasAnnotation("ProductVersion", "3.1.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("ChessBoard.Models.Faction", b =>
                 {
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<string>("FactionId")
+                        .HasColumnType("nvarchar(41)");
 
                     b.Property<string>("Civilization")
                         .IsRequired()
@@ -39,36 +39,33 @@ namespace ChessBoard.Migrations
                     b.Property<float>("Reputation")
                         .HasColumnType("real");
 
-                    b.HasKey("Name");
+                    b.HasKey("FactionId");
 
                     b.ToTable("Factions");
                 });
 
             modelBuilder.Entity("ChessBoard.Models.Military", b =>
                 {
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(20)");
+                    b.Property<string>("MilitaryId")
+                        .HasColumnType("nvarchar(41)");
 
                     b.Property<string>("Discriminator")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FactionName")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<string>("FactionId")
+                        .HasColumnType("nvarchar(41)");
+
+                    b.Property<string>("RegionId")
+                        .HasColumnType("nvarchar(31)");
 
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("X")
-                        .HasColumnType("int");
+                    b.HasKey("MilitaryId");
 
-                    b.Property<int>("Y")
-                        .HasColumnType("int");
-
-                    b.HasKey("Name");
-
-                    b.HasIndex("FactionName");
+                    b.HasIndex("FactionId");
 
                     b.ToTable("Military");
 
@@ -77,17 +74,11 @@ namespace ChessBoard.Migrations
 
             modelBuilder.Entity("ChessBoard.Models.Region", b =>
                 {
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(10)");
+                    b.Property<string>("RegionId")
+                        .HasColumnType("nvarchar(31)");
 
                     b.Property<string>("Faction")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<float>("NormalWealth")
-                        .HasColumnType("real");
-
-                    b.Property<float>("Wealth")
-                        .HasColumnType("real");
 
                     b.Property<int>("X")
                         .HasColumnType("int");
@@ -95,18 +86,18 @@ namespace ChessBoard.Migrations
                     b.Property<int>("Y")
                         .HasColumnType("int");
 
-                    b.HasKey("Name");
+                    b.HasKey("RegionId");
 
                     b.ToTable("Regions");
                 });
 
             modelBuilder.Entity("ChessBoard.Models.Transition", b =>
                 {
-                    b.Property<string>("RegionName1")
-                        .HasColumnType("nvarchar(10)");
+                    b.Property<string>("RegionId1")
+                        .HasColumnType("nvarchar(31)");
 
-                    b.Property<string>("RegionName2")
-                        .HasColumnType("nvarchar(10)");
+                    b.Property<string>("RegionId2")
+                        .HasColumnType("nvarchar(31)");
 
                     b.Property<string>("Factions")
                         .HasColumnType("nvarchar(max)");
@@ -114,23 +105,24 @@ namespace ChessBoard.Migrations
                     b.Property<float>("Penalty")
                         .HasColumnType("real");
 
-                    b.HasKey("RegionName1", "RegionName2");
+                    b.Property<bool>("PermittedForPlayer")
+                        .HasColumnType("bit");
 
-                    b.HasIndex("RegionName2");
+                    b.HasKey("RegionId1", "RegionId2");
+
+                    b.HasIndex("RegionId2");
 
                     b.ToTable("Transitions");
                 });
 
             modelBuilder.Entity("ChessBoard.Models.Unit", b =>
                 {
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<string>("UnitId")
+                        .HasColumnType("nvarchar(41)")
+                        .HasMaxLength(41);
 
                     b.Property<float>("Experience")
                         .HasColumnType("real");
-
-                    b.Property<string>("FactionName")
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<float>("FieldEffectiveness")
                         .HasColumnType("real");
@@ -138,8 +130,8 @@ namespace ChessBoard.Migrations
                     b.Property<float>("FortressEffectiveness")
                         .HasColumnType("real");
 
-                    b.Property<string>("MilitaryName")
-                        .HasColumnType("nvarchar(20)");
+                    b.Property<string>("MilitaryId")
+                        .HasColumnType("nvarchar(41)");
 
                     b.Property<float>("SiegeEffectiveness")
                         .HasColumnType("real");
@@ -157,11 +149,9 @@ namespace ChessBoard.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Name");
+                    b.HasKey("UnitId");
 
-                    b.HasIndex("FactionName");
-
-                    b.HasIndex("MilitaryName");
+                    b.HasIndex("MilitaryId");
 
                     b.ToTable("Units");
                 });
@@ -173,6 +163,14 @@ namespace ChessBoard.Migrations
                     b.Property<string>("Besieging")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("DestinationRegionId1")
+                        .HasColumnType("nvarchar(31)");
+
+                    b.Property<string>("DestinationRegionId2")
+                        .HasColumnType("nvarchar(31)");
+
+                    b.HasIndex("RegionId");
+
                     b.HasDiscriminator().HasValue("Army");
                 });
 
@@ -183,40 +181,60 @@ namespace ChessBoard.Migrations
                     b.Property<bool>("Besieged")
                         .HasColumnType("bit");
 
+                    b.Property<int>("X")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Y")
+                        .HasColumnType("int");
+
+                    b.HasIndex("RegionId")
+                        .HasName("IX_Military_RegionId1");
+
                     b.HasDiscriminator().HasValue("Fortress");
                 });
 
             modelBuilder.Entity("ChessBoard.Models.Military", b =>
                 {
                     b.HasOne("ChessBoard.Models.Faction", "Faction")
-                        .WithMany()
-                        .HasForeignKey("FactionName");
+                        .WithMany("Militaries")
+                        .HasForeignKey("FactionId");
                 });
 
             modelBuilder.Entity("ChessBoard.Models.Transition", b =>
                 {
                     b.HasOne("ChessBoard.Models.Region", "Region1")
                         .WithMany("Transitions1")
-                        .HasForeignKey("RegionName1")
+                        .HasForeignKey("RegionId1")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ChessBoard.Models.Region", "Region2")
                         .WithMany("Transitions2")
-                        .HasForeignKey("RegionName2")
+                        .HasForeignKey("RegionId2")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
             modelBuilder.Entity("ChessBoard.Models.Unit", b =>
                 {
-                    b.HasOne("ChessBoard.Models.Faction", null)
-                        .WithMany("Units")
-                        .HasForeignKey("FactionName");
-
                     b.HasOne("ChessBoard.Models.Military", "Military")
                         .WithMany("Units")
-                        .HasForeignKey("MilitaryName");
+                        .HasForeignKey("MilitaryId");
+                });
+
+            modelBuilder.Entity("ChessBoard.Models.Army", b =>
+                {
+                    b.HasOne("ChessBoard.Models.Region", "Region")
+                        .WithMany("Armies")
+                        .HasForeignKey("RegionId");
+                });
+
+            modelBuilder.Entity("ChessBoard.Models.Fortress", b =>
+                {
+                    b.HasOne("ChessBoard.Models.Region", "Region")
+                        .WithMany("Fortresses")
+                        .HasForeignKey("RegionId")
+                        .HasConstraintName("FK_Military_Regions_RegionId1");
                 });
 #pragma warning restore 612, 618
         }

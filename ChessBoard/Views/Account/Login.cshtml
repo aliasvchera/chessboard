@@ -1,0 +1,33 @@
+﻿@model LoginViewModel
+
+<style>
+    body {
+        background-image: url('@Url.Content("~/img/login.jpg")');
+        background-repeat: no-repeat;
+        background-color: lightgray;
+        background-position-x: 300px;
+        background-position-y: top;
+    }
+</style>
+
+<h2>Enter in<br />MAGISTER MILITVM</h2>
+<form method="post" asp-controller="Account" asp-action="Login" asp-route-returnUrl="@Model.ReturnUrl">
+    <div asp-validation-summary="ModelOnly"></div>
+    <div>
+        <label asp-for="Login"></label><br />
+        <input asp-for="Login" />
+        <span asp-validation-for="Login"></span>
+    </div>
+    <div>
+        <label asp-for="Password"></label><br />
+        <input asp-for="Password" />
+        <span asp-validation-for="Password"></span>
+    </div>
+    <div>
+        <label asp-for="RememberMe"></label><br />
+        <input asp-for="RememberMe" />
+    </div>
+    <div>
+        <input type="submit" value="Log in" />
+    </div>
+</form>

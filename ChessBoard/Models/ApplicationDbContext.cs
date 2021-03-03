@@ -37,32 +37,59 @@ namespace ChessBoard.Models
                 .HasConversion(converterMilitaryType);
 
             modelBuilder.Entity<Faction>()
-                .HasKey(f => f.Name);
+                .HasKey(f => f.FactionId);
 
             modelBuilder.Entity<Unit>()
-                .HasKey(u => u.Name);
+                .HasKey(u => u.UnitId);
 
-            modelBuilder.Entity<Unit>()
-                .HasOne(u => u.Military)
-                .WithMany(f => f.Units)
-                .HasForeignKey(u => u.MilitaryName)
-                .HasPrincipalKey(f => f.Name);
+            modelBuilder.Entity<Region>()
+                .HasKey(r => r.RegionId);
 
             /*modelBuilder.Entity<Region>()
                 .HasNoKey();*/
 
+            modelBuilder.Entity<Unit>()
+                .HasOne(u => u.Military)
+                .WithMany(f => f.Units)
+                .HasForeignKey(u => u.MilitaryId)
+                .HasPrincipalKey(f => f.MilitaryId);
+
+            modelBuilder.Entity<Army>()
+                .HasOne(m => m.Region)
+                .WithMany(r => r.Armies)
+                .HasForeignKey(m => m.RegionId)
+                .HasPrincipalKey(r => r.RegionId);
+
+            modelBuilder.Entity<Fortress>()
+                .HasOne(m => m.Region)
+                .WithMany(r => r.Fortresses)
+                .HasForeignKey(m => m.RegionId)
+                .HasPrincipalKey(r => r.RegionId);
+
+            modelBuilder.Entity<Military>()
+                .HasOne(a => a.Faction)
+                .WithMany(r => r.Militaries)
+                .HasForeignKey(a => a.FactionId)
+                .HasPrincipalKey(r => r.FactionId);
+
+            //modelBuilder.Entity<Fortress>()
+            //    .HasOne(m => m.Region)
+            //    .WithMany(r => r.Fortresses)
+            //    .HasForeignKey(m => m.RegionId)
+            //    .HasPrincipalKey(r => r.RegionId);
+
             modelBuilder.Entity<Transition>()
-                .HasKey(c => new { c.RegionName1, c.RegionName2 });
+                .HasKey(c => new { c.RegionId1, c.RegionId2 });
 
             modelBuilder.Entity<Transition>()
                 .HasOne(t => t.Region1)
                 .WithMany(r => r.Transitions1)
-                .HasForeignKey(t => t.RegionName1);
+                .HasForeignKey(t => t.RegionId1);
 
             modelBuilder.Entity<Transition>()
                 .HasOne(t => t.Region2)
                 .WithMany(r => r.Transitions2)
-                .HasForeignKey(t => t.RegionName2)
+                .HasForeignKey(t => t.RegionId2)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Transition>()

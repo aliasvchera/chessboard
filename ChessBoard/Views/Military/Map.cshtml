@@ -1,0 +1,178 @@
+﻿@model MilitaryModel
+
+<script type="text/javascript">
+    const uri = 'api/Units';
+    //let units = [];
+
+    function deleteItem(id) {
+        fetch(`${uri}/${id}`, {
+            method: 'DELETE'
+        })
+            .then(() => getItems())
+            .catch(error => console.error('Unable to delete item.', error));
+
+        //window.location.href = 'Url.Action("TestMap", "Military")'; // add 'at' before Url
+        //window.location.reload();
+    }
+</script>
+
+<style>
+    body {
+        background-image: url('@Url.Content("~/img/map_borders.jpg")');
+        background-repeat: no-repeat;
+    }
+</style>
+
+<form asp-controller="Military" asp-action="NextTurn">
+    <input type="image" src="~/img/test.png" style="position:fixed;" />
+</form>
+
+@{
+    <svg xmlns="MagisterMilitvm" width="1600" height="1000">
+        <defs>
+            <marker id="arrowhead_player" markerWidth="10" markerHeight="7" refX="8" refY="3.5" orient="auto" fill="brown" stroke="none">
+                <polygon points="0 0, 10 3.5, 0 7, 2 3.5" />
+            </marker>
+            <marker id="arrowtail_player" markerWidth="9" markerHeight="7" refX="0" refY="3.5" orient="auto" fill="brown" stroke="none">
+                <polygon points="2 3.5, 0 0, 1 0, 3 3.5, 4 3.5, 2 0, 3 0, 5 3.5, 6 3.5, 4 0, 5 0, 7 3.5, 8 3.5, 6 0, 7 0, 9 3.5, 7 7, 6 7, 8 3.5, 7 3.5, 5 7, 4 7, 6 3.5, 5 3.5, 3 7, 2 7, 4 3.5, 3 3.5, 1 7, 0 7" />
+            </marker>
+            <marker id="arrowhead_barbarian" markerWidth="10" markerHeight="7" refX="8" refY="3.5" orient="auto" fill="blue" stroke="none">
+                <polygon points="0 0, 10 3.5, 0 7, 2 3.5" />
+            </marker>
+            <marker id="arrowtail_barbarian" markerWidth="9" markerHeight="7" refX="0" refY="3.5" orient="auto" fill="blue" stroke="none">
+                <polygon points="2 3.5, 0 0, 1 0, 3 3.5, 4 3.5, 2 0, 3 0, 5 3.5, 6 3.5, 4 0, 5 0, 7 3.5, 8 3.5, 6 0, 7 0, 9 3.5, 7 7, 6 7, 8 3.5, 7 3.5, 5 7, 4 7, 6 3.5, 5 3.5, 3 7, 2 7, 4 3.5, 3 3.5, 1 7, 0 7" />
+            </marker>
+        </defs>
+
+        @foreach (var r in Model.Regions)
+        {
+            if (r.Armies.Count() > 0)
+            {
+                foreach (var a in r.Armies)
+                {
+                    if (!(a.DestinationRegionId1 is null))
+                    {
+                        var destinationRegion1 = Model.Regions.Where(r => r.RegionId.Equals(a.DestinationRegionId1)).FirstOrDefault();
+                        if (Model.Romans.Contains(a.FactionId))
+                        {
+                            <line x1="@a.Region.X" y1="@a.Region.Y" x2="@destinationRegion1.X" y2="@destinationRegion1.Y" stroke="brown" stroke-width="2" marker-start="url(#arrowtail_player)" marker-end="url(#arrowhead_player)" />
+
+                            if (!(a.DestinationRegionId2 is null))
+                            {
+                                var destinationRegion2 = Model.Regions.Where(r => r.RegionId.Equals(a.DestinationRegionId2)).FirstOrDefault();
+                                <line x1="@destinationRegion1.X" y1="@destinationRegion1.Y" x2="@destinationRegion2.X" y2="@destinationRegion2.Y" stroke="brown" stroke-width="2" marker-start="url(#arrowtail_player)" marker-end="url(#arrowhead_player)" />
+                            }
+                        }
+                        else
+                        {
+                            <line x1="@a.Region.X" y1="@a.Region.Y" x2="@destinationRegion1.X" y2="@destinationRegion1.Y" stroke="blue" stroke-width="2" marker-start="url(#arrowtail_barbarian)" marker-end="url(#arrowhead_barbarian)" />
+
+                            if (!(a.DestinationRegionId2 is null))
+                            {
+                                var destinationRegion2 = Model.Regions.Where(r => r.RegionId.Equals(a.DestinationRegionId2)).FirstOrDefault();
+                                <line x1="@destinationRegion1.X" y1="@destinationRegion1.Y" x2="@destinationRegion2.X" y2="@destinationRegion2.Y" stroke="blue" stroke-width="2" marker-start="url(#arrowtail_barbarian)" marker-end="url(#arrowhead_barbarian)" />
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    </svg>
+
+
+    foreach (var r in Model.Regions)
+    {
+        if (r.Armies.Count(a => Model.Romans.Contains(a.FactionId)) > 0)
+        {
+            int i = 0;
+            int j = 0;
+            foreach (var a in r.Armies.Where(a => Model.Romans.Contains(a.FactionId)))
+            {
+                if (a.FactionId.Equals(Model.playerFaction))
+                {
+                    <form asp-controller="Military" asp-action="SelectArmy">
+                        <input type="hidden" name="selectedArmy" value="@a.MilitaryId" />
+                        <input type="image" src="~/img/army.png" style="position:absolute;left:@((a.Region.X + (5 + 30 * i++)) + "px");top:@((a.Region.Y - 15) + "px");" />
+                    </form>
+                }
+                else
+                {
+                    <img src="~/img/army_roman.png" style="position:absolute;left:@((a.Region.X + (5 + 30 * i++)) + "px");top:@((a.Region.Y - 15) + "px");" />
+                }
+
+                if (a.Units?.Count > 0)
+                {
+                    foreach (var u in a.Units)
+                    {
+                        <form asp-controller="Military" asp-action="Map">
+                            <input href="#" type="image" onclick="deleteItem('@String.Format("{0}", u.UnitId)')" src="~/img/unit.png" style="position:absolute;left:@((a.Region.X + (5 + 20 * j++)) + "px");top:@((a.Region.Y + 15) + "px");" title=@u.SoldierNumber />
+                        </form>
+                        @*<img src="~/img/unit.png" style="position:absolute;left:@((a.Region.X - 15 * Model.pxRatio) + "px");top:@((a.Region.Y + 15 * Model.pxRatio + i * 22) + "px");" />*@
+                        @*<label style="position:absolute;left:@((a.Region.X - 15 * Model.pxRatio + 25) + "px");top:@((a.Region.Y + 15 * Model.pxRatio + i * 22) + "px");">@a.Units[i].SoldierNumber</label>*@
+                    }
+                }
+            }
+        }
+
+        if (r.Armies.Count(a => Model.Barbarians.Contains(a.FactionId)) > 0)
+        {
+            int i = 1;
+            int j = 1;
+            foreach (var a in r.Armies.Where(a => Model.Barbarians.Contains(a.FactionId)))
+            {
+                <img src="~/img/army_barbar.png" style="position:absolute;left:@((a.Region.X - (5 + 30 * i++)) + "px");top:@((a.Region.Y - 15) + "px");" />
+
+                if (a.Units?.Count > 0)
+                {
+                    foreach (var u in a.Units)
+                    {
+                        <form asp-controller="Military" asp-action="Map">
+                            <input href="#" type="image" onclick="deleteItem('@String.Format("{0}", u.UnitId)')" src="~/img/unit.png" style="position:absolute;left:@((a.Region.X - (5 + 20 * j++)) + "px");top:@((a.Region.Y + 15) + "px");" title=@u.SoldierNumber />
+                        </form>
+                    }
+                }
+            }
+        }
+
+        if (r.Fortresses?.Count > 0)
+        {
+            foreach (var f in r.Fortresses)
+            {
+                <img src="~/img/fortress.png" style="position:absolute;left:@((f.X - 15) + "px");top:@((f.Y - 15) + "px");" />
+                if (f.Units?.Count > 0)
+                {
+                    for (int i = 0; i < f.Units.Count; i++)
+                    {
+                        <img src="~/img/unit.png" style="position:absolute;left:@((f.X -15 + i * 20) + "px");top:@((f.Y + 15) + "px");" title=@f.Units[i].SoldierNumber />
+                        @*<label style="position:absolute;left:@((f.Region.X - 15 * Model.pxRatio + 25) + "px");top:@((f.Region.Y + 15 * Model.pxRatio + i * 22) + "px");">@f.Units[i].SoldierNumber</label>*@
+                    }
+                }
+
+                if (f.FactionId.Equals(Model.playerFaction))
+                {
+                    <form asp-controller="Military" asp-action="Recrute">
+                        <input type="hidden" name="militaryName" value="@f.MilitaryId" />
+                        @*<button style="position:absolute;left:@((f.Region.X - 15) + "px");top:@((f.Region.Y + 17 + f.Units?.Count * 22) + "px");">+</button>*@
+                        <input type="image" src="~/img/add_unit.png" style="position:absolute;left:@((f.X -15 + f.Units?.Count * 20) + "px");top:@((f.Y + 15) + "px");" title="Recrute" />
+                    </form>
+                }
+            }
+        }
+        if (Model.DestinationRegions0.Contains(r.RegionId))
+        {
+            <form asp-controller="Military" asp-action="SelectDestination">
+                <input type="hidden" name="regionId" value="@r.RegionId" />
+                <input type="hidden" name="step" value="1" />
+                <input type="image" src="~/img/destination0.png" style="position:absolute;left:@((r.X - 15) + "px");top:@((r.Y - 30) + "px");opacity:0.6;" />
+            </form>
+        }
+        if (Model.DestinationRegions1.Contains(r.RegionId))
+        {
+            <form asp-controller="Military" asp-action="SelectDestination">
+                <input type="hidden" name="regionId" value="@r.RegionId" />
+                <input type="hidden" name="step" value="2" />
+                <input type="image" src="~/img/destination1.png" style="position:absolute;left:@((r.X - 15) + "px");top:@((r.Y - 30) + "px");opacity:0.6;" />
+            </form>
+        }
+    }
+}

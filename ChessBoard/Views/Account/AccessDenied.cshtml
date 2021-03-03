@@ -1,0 +1,12 @@
+﻿<style>
+    body {
+        background-image: url('@Url.Content("~/img/access_denied.jpg")');
+        background-repeat: no-repeat;
+        background-color: lightgray;
+        background-position-x: 300px;
+        background-position-y: top;
+    }
+</style>
+
+<div class="bg-danger mb-1 p-2 text-white"><h4>Access Denied</h4></div>
+<a asp-action="Index" asp-controller="Home" class="btn btn-primary">OK</a>

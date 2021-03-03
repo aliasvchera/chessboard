@@ -46,7 +46,7 @@ namespace ChessBoard.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUnit(string id, Unit unit)
         {
-            if (id != unit.Name)
+            if (id != unit.UnitId)
             {
                 return BadRequest();
             }
@@ -85,7 +85,7 @@ namespace ChessBoard.Controllers
             }
             catch (DbUpdateException)
             {
-                if (UnitExists(unit.Name))
+                if (UnitExists(unit.UnitId))
                 {
                     return Conflict();
                 }
@@ -95,7 +95,7 @@ namespace ChessBoard.Controllers
                 }
             }
 
-            return CreatedAtAction("GetUnit", new { id = unit.Name }, unit);
+            return CreatedAtAction("GetUnit", new { id = unit.UnitId }, unit);
         }
 
         // DELETE: api/ApiUnits/5
@@ -116,7 +116,7 @@ namespace ChessBoard.Controllers
 
         private bool UnitExists(string id)
         {
-            return _context.Units.Any(e => e.Name == id);
+            return _context.Units.Any(e => e.UnitId == id);
         }
     }
 }

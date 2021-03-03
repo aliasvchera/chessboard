@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Ihor_Shutyi\\source\\repos\\ChessBoard\\ChessBoard_Tests\\ChessBoard_Tests.csproj": {}
+    "C:\\repos\\ChessBoard\\ChessBoard_Tests\\ChessBoard_Tests.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Ihor_Shutyi\\source\\repos\\ChessBoard\\ChessBoard\\ChessBoard.csproj": {
+    "C:\\repos\\ChessBoard\\ChessBoard\\ChessBoard.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Ihor_Shutyi\\source\\repos\\ChessBoard\\ChessBoard\\ChessBoard.csproj",
+        "projectUniqueName": "C:\\repos\\ChessBoard\\ChessBoard\\ChessBoard.csproj",
         "projectName": "ChessBoard",
-        "projectPath": "C:\\Users\\Ihor_Shutyi\\source\\repos\\ChessBoard\\ChessBoard\\ChessBoard.csproj",
-        "packagesPath": "C:\\Users\\Ihor_Shutyi\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Ihor_Shutyi\\source\\repos\\ChessBoard\\ChessBoard\\obj\\",
+        "projectPath": "C:\\repos\\ChessBoard\\ChessBoard\\ChessBoard.csproj",
+        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+        "outputPath": "C:\\repos\\ChessBoard\\ChessBoard\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Ihor_Shutyi\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -38,6 +38,10 @@
       "frameworks": {
         "netcoreapp3.1": {
           "dependencies": {
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[3.1.7, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[3.1.7, )"
@@ -59,6 +63,10 @@
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
               "version": "[3.1.4, )"
+            },
+            "PaulMiami.AspNetCore.Mvc.Recaptcha": {
+              "target": "Package",
+              "version": "[1.2.2, )"
             }
           },
           "imports": [
@@ -79,21 +87,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\Ihor_Shutyi\\source\\repos\\ChessBoard\\ChessBoard_Tests\\ChessBoard_Tests.csproj": {
+    "C:\\repos\\ChessBoard\\ChessBoard_Tests\\ChessBoard_Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Ihor_Shutyi\\source\\repos\\ChessBoard\\ChessBoard_Tests\\ChessBoard_Tests.csproj",
+        "projectUniqueName": "C:\\repos\\ChessBoard\\ChessBoard_Tests\\ChessBoard_Tests.csproj",
         "projectName": "ChessBoard_Tests",
-        "projectPath": "C:\\Users\\Ihor_Shutyi\\source\\repos\\ChessBoard\\ChessBoard_Tests\\ChessBoard_Tests.csproj",
-        "packagesPath": "C:\\Users\\Ihor_Shutyi\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Ihor_Shutyi\\source\\repos\\ChessBoard\\ChessBoard_Tests\\obj\\",
+        "projectPath": "C:\\repos\\ChessBoard\\ChessBoard_Tests\\ChessBoard_Tests.csproj",
+        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+        "outputPath": "C:\\repos\\ChessBoard\\ChessBoard_Tests\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Ihor_Shutyi\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -106,8 +114,8 @@
         "frameworks": {
           "netcoreapp3.1": {
             "projectReferences": {
-              "C:\\Users\\Ihor_Shutyi\\source\\repos\\ChessBoard\\ChessBoard\\ChessBoard.csproj": {
-                "projectPath": "C:\\Users\\Ihor_Shutyi\\source\\repos\\ChessBoard\\ChessBoard\\ChessBoard.csproj"
+              "C:\\repos\\ChessBoard\\ChessBoard\\ChessBoard.csproj": {
+                "projectPath": "C:\\repos\\ChessBoard\\ChessBoard\\ChessBoard.csproj"
               }
             }
           }
@@ -168,7 +176,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"
         }
       }
     }

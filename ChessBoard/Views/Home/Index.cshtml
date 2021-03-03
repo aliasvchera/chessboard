@@ -1,0 +1,23 @@
+﻿<style>
+    body {
+        background-image: url('@Url.Content("~/img/index.jpg")');
+        background-repeat: no-repeat;
+        background-color: lightgray;
+        background-position-x: 300px;
+        background-position-y: top;
+    }
+</style>
+
+@if (User.Identity.IsAuthenticated)
+{
+    <p>@User.Identity.Name</p>
+
+    <form method="post" asp-controller="Account" asp-action="Logout">
+        <input type="submit" value="Sign Out/Log Out" /> 
+    </form>
+}
+else
+{
+    <a asp-controller="Account" asp-action="Login">Log In</a>
+    <a asp-controller="Account" asp-action="Register">Sign Up</a>
+}

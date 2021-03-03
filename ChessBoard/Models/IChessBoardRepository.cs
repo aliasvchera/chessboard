@@ -11,5 +11,7 @@ namespace ChessBoard.Models
         public IQueryable<Army> Armies { get; }
         public IQueryable<Fortress> Fortresses { get; }
         void AddUnit(string militaryName);
+        void UpdateDestination(string armyId, string regionId, byte step);
+        void ProcessTurn();
     }
 }
